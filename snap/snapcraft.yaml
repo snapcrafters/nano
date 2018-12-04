@@ -5,13 +5,11 @@
 # This file is in the YAML data serialization format:
 # http://yaml.org
 # For the spec. of writing this file refer the following documentation:
-# * Snapcraft.yaml reference
-#   https://docs.snapcraft.io/snapcraft-yaml-reference/4276
-# * The snapcraft syntax
-#   https://docs.snapcraft.io/build-snaps/syntax
-# * Snap Docs
+# * The snapcraft format
+#   https://docs.snapcraft.io/the-snapcraft-format/8337
+# * Snap Documentation
 #   https://docs.snapcraft.io
-# * Latest doc topics in the Snapcraft Forum
+# * Topics under the doc category in the Snapcraft Forum
 #   https://forum.snapcraft.io/c/doc
 # For support refer to the snapcraft section in the Snapcraft Forum:
 # https://forum.snapcraft.io/c/snapcraft
@@ -98,32 +96,43 @@ apps:
 # For `override-*` scriptlets used to modify behavior of certain part's lifecycle phase, check out:
 # https://docs.snapcraft.io/scriptlets/4892
 parts:
-  # Assets from the snap packaging, refer each READMEs under the `snap` folder for more information
-  assets:
-    source: snap/local
+  # Utility programs to help with packaging
+  utilities:
+    source: snap/local/utilities
     plugin: dump
-
-    override-build: ./utilities/install-assets.bash
-
+    organize:
+      '*': assets/utilities/
     prime:
-    - -utilities
-    - -patches
+    - -*
 
-  # Remote part for support of various desktop technologies
-  # Refer: https://github.com/ubuntu/snapcraft-desktop-helpers/blob/master/snapcraft.yaml
-  desktop-gtk3: # for yad
+  # Launcher programs to fix problems at runtime
+  launchers:
+    source: snap/local/launchers
+    plugin: dump
+    organize:
+      '*-launch': bin/
 
-  # Optional auxiliary part for displaying simple dialogs for better user experience, powered by the Yet Another Dialog
-  yad:
-    plugin: nil
-    stage-packages:
-    - yad
+  # Program patches to solve issues that can't be solved by tweaking in runtime
+  patches:
+    source: snap/local/patches
+    plugin: dump
+    organize:
+      '*': assets/patches/
+    prime:
+    - -*
+
+  # Remote part for fixing the glibc locales(and gnu gettext I18N support)
+  # This part is only required for non GUI apps that don't uses the desktop-launch launchers
+  #locales-launch:
+
+  # Remote part for recording the exact revision for each part during building
+  parts-meta-info:
 
   nano:
     after:
-    - assets # for /snap/local/utilities/patch-desktop-entries
+    - utilities # for patch-desktop-entries.*
 
-    #source:
+    source: snap/local/empty
     #source-type:
     #source-tag:
     #source-depth:
