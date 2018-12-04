@@ -39,7 +39,15 @@ Published for <img src="http://anything.codes/slack-emoji-for-techies/emoji/tux.
 
 <!-- Uncomment when you have test results
 ## What is Working
-* [A list of functionallities that are verified working]
+* Launch
+* Open file
+* Syntax coloring
+* I18N
+* Search
+* File browser
+* File type auto-detection
+* A certain easter egg
+* Mouse support
 
 ## What is NOT Working...yet 
 Check out the [issue tracker](https://github.com/Lin-Buo-Ren/nano-snap/issues) for known issues.
