@@ -54,10 +54,8 @@ Check out the [issue tracker](https://github.com/Lin-Buo-Ren/nano-snap/issues) f
 ## What is NOT Tested...yet
 Anything not listed in "What is Working" and "What is NOT Working...yet" sections.
 
-<!-- Uncomment when you have initialized the URLs
 ## Support
 * Report issues regarding using this snap to the issue tracker:  
   <https://github.com/Lin-Buo-Ren/nano-snap/issues>
 * You may also post on the Snapcraft Forum, under the `snap` topic category:  
   <https://forum.snapcraft.io/c/snap>
--->
