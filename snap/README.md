@@ -5,7 +5,7 @@
 -->
 ![Logo of GNU Nano](gui/nano.png "Logo of GNU Nano")
 
-**This is the unofficial snap for GNU Nano**, *"Single-line elevator pitch for your amazing snap"*. It works on Ubuntu, Fedora, Debian, and other major Linux distributions.
+**This is the unofficial snap for GNU Nano**, *"Small, friendly text editor inspired by Pico"*. It works on Ubuntu, Fedora, Debian, and other major Linux distributions.
 
 [![Build Status Badge of the `nano` Snap](https://build.snapcraft.io/badge/Lin-Buo-Ren/nano-snap.svg "Build Status of the `nano` snap")](https://build.snapcraft.io/user/Lin-Buo-Ren/nano-snap)
 
