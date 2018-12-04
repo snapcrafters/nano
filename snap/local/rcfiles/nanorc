@@ -1,0 +1,4 @@
+# Initialization file for GNU nano in a snap
+
+## Fix syntax coloring
+include "/snap/nano/current/share/nano/*.nanorc"

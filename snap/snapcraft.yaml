@@ -15,95 +15,69 @@
 # https://forum.snapcraft.io/c/snapcraft
 
 name: nano
-summary: Single-line elevator pitch for your amazing snap under 79 chars.
+summary: Small, friendly text editor inspired by Pico
 description: |
-  This is nano's description. You have a paragraph or two to tell
-  the most important story about your snap. Keep it under 100 words though,
-  we live in tweetspace and your description wants to look good in the snap
-  store.
+  GNU nano is an easy-to-use text editor originally designed as a replacement
+  for Pico, the ncurses-based editor from the non-free mailer package Pine
+  (itself now available under the Apache License as Alpine).
 
-# The path of icon to represent the snap, relative to the source tree directory
-# Only PNG or SVG image is supported, dimension must be greater than 256x256px
+  However, GNU nano also implements many features missing in Pico, including:
+    - undo/redo
+    - line numbering
+    - syntax coloring
+    - soft-wrapping of overlong lines
+    - selecting text by holding Shift
+    - interactive search and replace (with regular expression support)
+    - a go-to line (and column) command
+    - support for multiple file buffers
+    - auto-indentation
+    - tab completion of filenames and search terms
+    - toggling features while running
+    - and full internationalization support
+
+  This is NOT an official nano distribution, refer the issue tracker for any problems regarding the use of this snap:
+
+    Issues · Lin-Buo-Ren/nano-snap
+    https://github.com/Lin-Buo-Ren/nano-snap/issues
+
 icon: snap/gui/nano.png
 
-# Version string just for humans, typically '1.2+git' or '1.3.2'
-# The wrapping single quotes are often required to avoid the version string
-# being accidentally interpreted as a YAML non-string(like '1', '1.2').
-# http://yaml.org/type
-# https://arp242.net/weblog/yaml_probably_not_so_great_after_all.html#surprising-behaviour
 version: determined-by-version-script
-
-# (OPTIONAL) The version string can also be dynamically determined via scripting
-# , in this case the value of the `version` key will be ignored (but the key is
-# still required).
-# NOTE: The resulting version string cannot be longer than 32 characters
 version-script: ./snap/local/utilities/set-snap-version.bash
-#version-script: git -C parts/nano/src describe --always --dirty --tags
 
-# Security confinement
-# Use `devmode` to getting started
-# Flip to `strict` once you have the right plugs and slots,
-# or `classic` once you determine that strict confinement is not currently possible
-confinement: strict
-
-# Snap Grade
-# Use `devel` to getting started
-# Flip to `stable` once you determine that the snap is matured, only `stable` grade
-# snaps can be promoted to `candidate` and `stable` channels
+confinement: devmode
 grade: stable
 
-# Refer the following documentation for asserting interface plugs and slots in a security confined snap:
-# Interface management - doc - snapcraft.io
-# https://docs.snapcraft.io/interface-management/6154
-# Supported interfaces - doc - snapcraft.io
-# https://docs.snapcraft.io/supported-interfaces/7744
-# Non-A/C: Non-autoconnect interface
 plugs:
-  # For snaps with a graphical user interface:
-  desktop:
-  desktop-legacy:
-  x11:
-  unity7:
-  wayland:
-
   # Storage access
-  #home:
-  #removable-media: # Non-A/C
+  home:
+    #read: all # Enable this will make this interface non-A/C
+  removable-media: # Non-A/C
 
-  # Network access
-  #network:
-
-#slots:
-
-# Apps that are exposed by the snap package
-# If the _app_name_ is identical with the _snap_name_ it can be directly run
-# with `_snap_name_` or `snap run _snap_name_` commands, otherwise it can only be run
-# via `_snap_name_._app_name_` or `snap run _snap_name_._app_name_`
 apps:
   nano:
-    # The command to run the application, the base command should be an *relative path* to an executable file rooted from the `prime` directory (for `classic` confinement compatiblity, where command search PATHs under $SNAP isn't set for library compatiblity reasons).  The arguments are usually other launchers' *absolute path* rooted from the $SNAP environment variable that are *stacked over* previous ones to consolidate their runtime environment modifications.
-    # NOTE: The right angle bracket at the beginning of the value of the `command` keyword starts a YAML folded style block scalar, refer the following spec document for more info: http://yaml.org/spec/1.2/spec.html#id2796251
     command: >
-      bin/nano-launch
-      nano
-    # If the providing part of the app. has a desktop entry, specify its path relative to the `prime` directory.
-    # If the packaging target doesn't provide a desktop entry, ignore the `desktop` key and implement a desktop entry in `/snap/gui`
-    #desktop: share/applications/nano.desktop
+      bin/locales-launch
+      "${SNAP}"/bin/magic-launch
+      "${SNAP}"/bin/nano-launch
+      "${SNAP}"/bin/nano
 
-# Run `snapcraft help sources` for supported keywords on pulling a part's source ingredients
-# Run `snapcraft plugins` for supported build helper plugins
-# Run `snapcraft help plugins` for supported keywords on building a part
-# For `override-*` scriptlets used to modify behavior of certain part's lifecycle phase, check out:
-# https://docs.snapcraft.io/scriptlets/4892
+  rnano:
+    command: >
+      bin/locales-launch
+      "${SNAP}"/bin/magic-launch
+      "${SNAP}"/bin/nano-launch
+      "${SNAP}"/bin/rnano
+
 parts:
   # Utility programs to help with packaging
-  utilities:
-    source: snap/local/utilities
-    plugin: dump
-    organize:
-      '*': assets/utilities/
-    prime:
-    - -*
+  #utilities:
+    #source: snap/local/utilities
+    #plugin: dump
+    #organize:
+      #'*': assets/utilities/
+    #prime:
+    #- -*
 
   # Launcher programs to fix problems at runtime
   launchers:
@@ -113,37 +87,46 @@ parts:
       '*-launch': bin/
 
   # Program patches to solve issues that can't be solved by tweaking in runtime
-  patches:
-    source: snap/local/patches
-    plugin: dump
-    organize:
-      '*': assets/patches/
-    prime:
-    - -*
+  #patches:
+    #source: snap/local/patches
+    #plugin: dump
+    #organize:
+      #'*': assets/patches/
+    #prime:
+    #- -*
 
   # Remote part for fixing the glibc locales(and gnu gettext I18N support)
   # This part is only required for non GUI apps that don't uses the desktop-launch launchers
-  #locales-launch:
+  locales-launch:
 
   # Remote part for recording the exact revision for each part during building
   parts-meta-info:
 
+  # A minimal nanorc for this snap
+  rcfiles:
+    source: snap/local/rcfiles
+    plugin: dump
+    organize:
+      '*': assets/rcfiles/
+
   nano:
-    after:
-    - utilities # for patch-desktop-entries.*
+    source: git://git.savannah.gnu.org/nano.git
+    source-tag: v3.2
+    source-depth: 1
 
-    source: snap/local/empty
-    #source-type:
-    #source-tag:
-    #source-depth:
-
-    plugin: nil
-
-    override-stage: |
-      set \
-        -o errexit \
-        -o nounset
-
-      snapcraftctl stage
-
-      utilities/patch-desktop-entries.bash
+    plugin: autotools
+    configflags:
+    - --datarootdir=/snap/$SNAPCRAFT_PROJECT_NAME/current/share
+    - --sysconfdir=/snap/$SNAPCRAFT_PROJECT_NAME/current/assets/rcfiles
+    build-packages:
+    - gettext
+    - groff
+    - libmagic-dev
+    - libncursesw5-dev
+    - pkg-config
+    - texinfo
+    stage-packages:
+    - libmagic1
+    - libncursesw5
+    organize:
+      snap/$SNAPCRAFT_PROJECT_NAME/current: /

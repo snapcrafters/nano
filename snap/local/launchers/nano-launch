@@ -7,7 +7,72 @@ set \
 	-o nounset \
 	-o pipefail
 
-#export IMPORTANT_ENVIRONMENT_VARIABLE=value
+## Support user's default nano config when available
+## Refer rcfile.c
+declare \
+    real_home_dir \
+    user_nanorc \
+    user_nanorc_homedir \
+    user_nanorc_xdgconfigdir \
+    snap_nanorc="${SNAP_USER_COMMON}"/.config/nano/nanorc
+
+real_home_dir="$(
+    getent \
+        passwd \
+        "${USER}" \
+    | cut \
+        --delimiter=: \
+        --fields=6
+)"
+
+# Don't do anything in classic confinement
+if test "${HOME}" != "${real_home_dir}"; then
+    user_nanorc_homedir="${real_home_dir}"/.nanorc
+
+    mkdir \
+        --parents \
+        "$(dirname "${snap_nanorc}")"
+
+    if test -v XDG_CONFIG_HOME; then
+        user_nanorc_xdgconfigdir="${XDG_CONFIG_HOME}"/nano/nanorc
+    else
+        user_nanorc_xdgconfigdir="${real_home_dir}"/.config/nano/nanorc
+    fi
+
+    if test -e "${user_nanorc_homedir}"; then
+        user_nanorc="${user_nanorc_homedir}"
+    elif test -v user_nanorc_xdgconfigdir && test -e "${user_nanorc_xdgconfigdir}"; then
+        user_nanorc="${user_nanorc_xdgconfigdir}"
+    fi
+
+    # Show warning if user do have a config file but not in the accessible location
+    if test -v user_nanorc; then
+        if ! test -e "${snap_nanorc}"; then
+            printf -- \
+                "nano-launch: It appears that you have a nanorc file in your home directory, however due to snapd's security confinement it is not accessible by the snap.\\n" \
+                >&2
+            # Intentionally print not expanded expression
+            # shellcheck disable=SC2016
+            printf -- \
+                'nano-launch: If you wish to use it you have to create a hardlink manually by running the `ln %s %s` command in a terminal.\n' \
+                "${user_nanorc}" \
+                "${snap_nanorc}" \
+                >&2
+            # Intentionally print not expanded expression
+            # shellcheck disable=SC2016
+            printf -- \
+                'nano-launch: To silent this warning without linking create a blank file at %s.\n' \
+                "${snap_nanorc}" \
+                >&2
+
+            printf -- \
+                '\nPress Enter to continue:' \
+                >&2
+            read placeholder
+        fi
+    fi
+    export XDG_CONFIG_HOME="${SNAP_USER_COMMON}"/.config
+fi
 
 # Finally run the next part of the command chain
 exec "${@}"
