@@ -1,11 +1,11 @@
-# Unofficial Snap Packaging for GNU Nano
+# Unofficial Snap Packaging for GNU nano
 <!--
 ​	Use the Staticaly service for easy access to in-repo pictures:
 ​	https://www.staticaly.com/
 -->
-![Logo of GNU Nano](gui/nano.png "Logo of GNU Nano")
+![Logo of GNU nano](gui/nano.png "Logo of GNU nano")
 
-**This is the unofficial snap for GNU Nano**, *"Small, friendly text editor inspired by Pico"*. It works on Ubuntu, Fedora, Debian, and other major Linux distributions.
+**This is the unofficial snap for GNU nano**, *"Small, friendly text editor inspired by Pico"*. It works on Ubuntu, Fedora, Debian, and other major Linux distributions.
 
 [![Build Status Badge of the `nano` Snap](https://build.snapcraft.io/badge/Lin-Buo-Ren/nano-snap.svg "Build Status of the `nano` snap")](https://build.snapcraft.io/user/Lin-Buo-Ren/nano-snap)
 
