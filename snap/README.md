@@ -3,7 +3,7 @@
 ​	Use the Staticaly service for easy access to in-repo pictures:
 ​	https://www.staticaly.com/
 -->
-![Logo of GNU nano](gui/nano.png "Logo of GNU nano")
+![Logo of GNU nano](https://cdn.staticaly.com/gh/Lin-Buo-Ren/nano-snap/7b2e0252/snap/gui/nano.png "Logo of GNU nano")
 
 **This is the unofficial snap for GNU nano**, *"Small, friendly text editor inspired by Pico"*. It works on Ubuntu, Fedora, Debian, and other major Linux distributions.
 
