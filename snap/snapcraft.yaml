@@ -45,7 +45,7 @@ icon: snap/gui/nano.png
 version: determined-by-version-script
 version-script: ./snap/local/utilities/set-snap-version.bash
 
-confinement: devmode
+confinement: strict
 grade: stable
 
 plugs:
