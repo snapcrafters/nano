@@ -111,7 +111,7 @@ parts:
 
   nano:
     source: git://git.savannah.gnu.org/nano.git
-    source-tag: v3.2
+    #source-tag: v3.2
     source-depth: 1
 
     plugin: autotools
