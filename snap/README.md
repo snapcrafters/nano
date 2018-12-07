@@ -18,8 +18,7 @@ Published for <img src="http://anything.codes/slack-emoji-for-techies/emoji/tux.
 
 ### In a Terminal
 #### Install the Snap Package
-    sudo snap install --channel=beta nano
-    #sudo snap install nano
+    sudo snap install nano
 
 #### Connect the Snap to Optional Interfaces
 ##### For editing files under `/media`, `/run/media`, and `/mnt`
