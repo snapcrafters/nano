@@ -42,8 +42,8 @@ description: |
 
 icon: snap/gui/nano.png
 
-version: determined-by-version-script
-version-script: ./snap/local/utilities/set-snap-version.bash
+#version: determined-by-adopt-info
+adopt-info: nano
 
 confinement: strict
 grade: stable
@@ -71,13 +71,13 @@ apps:
 
 parts:
   # Utility programs to help with packaging
-  #utilities:
-    #source: snap/local/utilities
-    #plugin: dump
-    #organize:
-      #'*': assets/utilities/
-    #prime:
-    #- -*
+  utilities:
+    source: snap/local/utilities
+    plugin: dump
+    organize:
+      '*': assets/utilities/
+    prime:
+    - -*
 
   # Launcher programs to fix problems at runtime
   launchers:
@@ -110,9 +110,10 @@ parts:
       '*': assets/rcfiles/
 
   nano:
-    source: git://git.savannah.gnu.org/nano.git
-    #source-tag: v3.2
-    source-depth: 1
+    after:
+    - utilities
+
+    override-pull: '"${SNAPCRAFT_STAGE}"/assets/utilities/parts-nano-override-pull.bash'
 
     plugin: autotools
     configflags:
