@@ -57,17 +57,29 @@ plugs:
 apps:
   nano:
     command: >
-      bin/locales-launch
+      bin/nano-launch
+      "${SNAP}"/bin/workaround-snap-arch-triplet-launch
+      "${SNAP}"/bin/classic-launch
+      "${SNAP}"/bin/locales-launch
       "${SNAP}"/bin/magic-launch
-      "${SNAP}"/bin/nano-launch
       "${SNAP}"/bin/nano
+    environment:
+      # Fix "Error opening terminal: xterm-256color." error in classic confinement
+      # DOC: terminfo(5) manpage
+      TERMINFO_DIRS: /snap/core/current/lib/terminfo
 
   rnano:
     command: >
-      bin/locales-launch
+      bin/nano-launch
+      "${SNAP}"/bin/workaround-snap-arch-triplet-launch
+      "${SNAP}"/bin/classic-launch
+      "${SNAP}"/bin/locales-launch
       "${SNAP}"/bin/magic-launch
-      "${SNAP}"/bin/nano-launch
       "${SNAP}"/bin/rnano
+    environment:
+      # Fix "Error opening terminal: xterm-256color." error in classic confinement
+      # DOC: terminfo(5) manpage
+      TERMINFO_DIRS: /snap/core/current/lib/terminfo
 
 parts:
   # Utility programs to help with packaging
@@ -94,6 +106,11 @@ parts:
       #'*': assets/patches/
     #prime:
     #- -*
+
+  # Required by classic-launch part
+  workaround-snap-arch-triplet:
+
+  classic-launch:
 
   # Remote part for fixing the glibc locales(and gnu gettext I18N support)
   # This part is only required for non GUI apps that don't uses the desktop-launch launchers
