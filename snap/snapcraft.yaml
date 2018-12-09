@@ -45,7 +45,7 @@ icon: snap/gui/nano.png
 #version: determined-by-adopt-info
 adopt-info: nano
 
-confinement: strict
+confinement: classic
 grade: stable
 
 plugs:
