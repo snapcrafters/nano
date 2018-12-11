@@ -7,6 +7,9 @@ set \
 	-o nounset \
 	-o pipefail
 
+declare \
+    launcher_title='The (UNOFFICIAL) GNU nano Snap Helper'
+
 ## Support user's default nano config when available
 ## Refer rcfile.c
 declare \
@@ -48,27 +51,17 @@ if test "${HOME}" != "${real_home_dir}"; then
     # Show warning if user do have a config file but not in the accessible location
     if test -v user_nanorc; then
         if ! test -e "${snap_nanorc}"; then
-            printf -- \
-                "nano-launch: It appears that you have a nanorc file in your home directory, however due to snapd's security confinement it is not accessible by the snap.\\n" \
-                >&2
-            # Intentionally print not expanded expression
-            # shellcheck disable=SC2016
-            printf -- \
-                'nano-launch: If you wish to use it you have to create a hardlink manually by running the `ln %s %s` command in a terminal.\n' \
-                "${user_nanorc}" \
-                "${snap_nanorc}" \
-                >&2
-            # Intentionally print not expanded expression
-            # shellcheck disable=SC2016
-            printf -- \
-                'nano-launch: To silent this warning without linking create a blank file at %s.\n' \
-                "${snap_nanorc}" \
-                >&2
-
-            printf -- \
-                '\nPress Enter to continue:' \
-                >&2
-            read placeholder
+            # Disable mouse support for select-copy-paste convenience
+            dialog \
+                --title "${launcher_title}" \
+                --no-mouse \
+                --msgbox "$(
+                    echo -e \
+                        "It appears that you have a nanorc file in your home directory, however due to snapd's security confinement it is not accessible by the snap.\\n\\n" \
+                        "If you wish to use it you have to create a hardlink manually by running the following command in a terminal:\\n\\n" \
+                        "ln ${user_nanorc} ${snap_nanorc}\\n\\n" \
+                        "To silent this warning create a blank file at ${snap_nanorc}."
+                )" 0 0 # autosized
         fi
     fi
     export XDG_CONFIG_HOME="${SNAP_USER_COMMON}"/.config

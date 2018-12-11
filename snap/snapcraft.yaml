@@ -57,11 +57,12 @@ plugs:
 apps:
   nano:
     command: >
-      bin/nano-launch
-      "${SNAP}"/bin/workaround-snap-arch-triplet-launch
+      bin/workaround-snap-arch-triplet-launch
       "${SNAP}"/bin/classic-launch
       "${SNAP}"/bin/locales-launch
       "${SNAP}"/bin/magic-launch
+      "${SNAP}"/bin/ncurses-launch
+      "${SNAP}"/bin/nano-launch
       "${SNAP}"/bin/nano
     environment:
       # Fix "Error opening terminal: xterm-256color." error in classic confinement
@@ -70,11 +71,12 @@ apps:
 
   rnano:
     command: >
-      bin/nano-launch
-      "${SNAP}"/bin/workaround-snap-arch-triplet-launch
+      bin/workaround-snap-arch-triplet-launch
       "${SNAP}"/bin/classic-launch
       "${SNAP}"/bin/locales-launch
       "${SNAP}"/bin/magic-launch
+      "${SNAP}"/bin/ncurses-launch
+      "${SNAP}"/bin/nano-launch
       "${SNAP}"/bin/rnano
     environment:
       # Fix "Error opening terminal: xterm-256color." error in classic confinement
@@ -97,6 +99,8 @@ parts:
     plugin: dump
     organize:
       '*-launch': bin/
+    stage-packages:
+    - dialog
 
   # Program patches to solve issues that can't be solved by tweaking in runtime
   #patches:
