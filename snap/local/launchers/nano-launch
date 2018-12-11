@@ -57,10 +57,10 @@ if test "${HOME}" != "${real_home_dir}"; then
                 --no-mouse \
                 --msgbox "$(
                     echo -e \
-                        "It appears that you have a nanorc file in your home directory, however due to snapd's security confinement it is not accessible by the snap.\\n\\n" \
-                        "If you wish to use it you have to create a hardlink manually by running the following command in a terminal:\\n\\n" \
-                        "ln ${user_nanorc} ${snap_nanorc}\\n\\n" \
-                        "To silent this warning create a blank file at ${snap_nanorc}."
+                        "It appears that you have a nanorc file in your home directory, however due to snapd's security confinement it is not accessible by the snap." \
+                        "\\n\\nIf you wish to use it you have to create a hardlink manually by running the following command in a terminal:" \
+                        "\\n\\nln ${user_nanorc} ${snap_nanorc}" \
+                        "\\n\\nTo silent this warning create a blank file at ${snap_nanorc}."
                 )" 0 0 # autosized
         fi
     fi
