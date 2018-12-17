@@ -7,6 +7,35 @@ set \
 	-o nounset \
 	-o pipefail
 
+## Check for snap updates in background
+if test -e "${SNAP_USER_COMMON}"/.config/nano-snap/updates_available; then
+    printf -- \
+    'nano-launch: New updates are available!  You may update the snap by running the following command:\n\n' \
+    >&2
+    if test "${SNAP_REVISION:0:1}" = x; then
+        # This snap is installed locally
+        printf -- \
+            "    sudo snap refresh --amend --classic ${SNAP_NAME}\\n\\n"
+            >&2
+    else
+        printf -- \
+            "    sudo snap refresh --classic ${SNAP_NAME}\\n\\n"
+            >&2
+    fi
+    printf -- \
+        'Press Enter to continue:' \
+        >&2
+    read placeholder
+    unset placeholder
+else
+    mkdir \
+        --parents \
+        "${SNAP_USER_COMMON}"/.cache/nano-snap
+    check-snap-updates-helper \
+        &>"${SNAP_USER_COMMON}"/.cache/nano-snap/check-snap-updates-helper.log \
+        &
+fi
+
 ## Support user's default nano config when available
 ## Refer rcfile.c
 declare \

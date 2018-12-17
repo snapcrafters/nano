@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Post refresh hook for snap update maintainence
+set \
+	-o errexit \
+	-o errtrace \
+	-o nounset \
+	-o pipefail
+
+printf -- \
+    'post-refresh: Clearing the updates_available marker.\n'
+rm \
+    --force \
+    "${SNAP_USER_COMMON}"/.config/nano-snap/updates_available
+exit 0

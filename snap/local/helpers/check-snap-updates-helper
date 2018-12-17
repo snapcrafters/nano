@@ -1,0 +1,82 @@
+#!/usr/bin/env bash
+# Helper for checking snap updates
+# TODO: Also check for upstream new releases
+set \
+	-o errexit \
+	-o errtrace \
+	-o nounset \
+	-o pipefail
+
+if ! test -v SNAP_NAME; then
+    echo 'Error: This program should only be run in the snap runtime environment!' >&2
+    exit 1
+fi
+
+declare \
+    current_latest_version \
+    this_version \
+    tracking_channel \
+    updates_available=false
+
+this_version="${SNAP_VERSION}"
+
+# If snap is local
+if test "${SNAP_REVISION:0:1}" = x; then
+    current_latest_version="$(
+        snap \
+            info \
+            "${SNAP_NAME}" \
+            | awk \
+                '$1 == "stable:" { print $2 }' \
+            || true
+    )"
+else
+    tracking_channel="$(
+        snap \
+            info \
+            "${SNAP_NAME}" \
+            | awk \
+                '$1 == "tracking:" { print $2 }' \
+            || true
+    )"
+
+    current_latest_version="$(
+        snap \
+            info \
+            "${SNAP_NAME}" \
+            | awk \
+                "\$1 == \"${tracking_channel}:\" { print \$2 }" \
+            || true
+    )"
+fi
+
+# Check failed, or SNAP_NAME not available
+if test -z "${current_latest_version}"; then
+    exit 0
+fi
+
+if LC_COLLATE=C.UTF-8 \
+    test \
+    "${current_latest_version}" '>' "${this_version}" \
+    2>/dev/null; then
+    updates_available=true
+fi
+
+if test "${updates_available}" = true; then
+    echo \
+        'Updates available, setting marker.' \
+        >&2
+    mkdir \
+        --parent \
+        "${SNAP_USER_COMMON}"/.config/nano-snap
+    touch \
+        "${SNAP_USER_COMMON}"/.config/nano-snap/updates_available
+fi
+
+unset \
+    current_latest_version \
+    this_version \
+    tracking_channel \
+    updates_available
+
+exit 0
