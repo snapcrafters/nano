@@ -10,5 +10,5 @@ printf -- \
     'post-refresh: Clearing the updates_available marker.\n'
 rm \
     --force \
-    "${SNAP_USER_COMMON}"/.config/nano-snap/updates_available
+    "${SNAP_USER_COMMON}"/.config/"${SNAP_NAME}"-snap/updates_available
 exit 0

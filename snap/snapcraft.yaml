@@ -67,6 +67,9 @@ apps:
       "${SNAP}"/bin/nano-launch
       "${SNAP}"/bin/nano
     environment:
+      # Enable classic snap update checker
+      CLASSIC_LAUNCH_ENABLE_UPDATE_CHECKER: 'true'
+
       # Fix "Error opening terminal: xterm-256color." error in classic confinement
       # DOC: terminfo(5) manpage
       TERMINFO_DIRS: /snap/core/current/lib/terminfo
@@ -80,6 +83,9 @@ apps:
       "${SNAP}"/bin/nano-launch
       "${SNAP}"/bin/rnano
     environment:
+      # Enable classic snap update checker
+      CLASSIC_LAUNCH_ENABLE_UPDATE_CHECKER: 'true'
+
       # Fix "Error opening terminal: xterm-256color." error in classic confinement
       # DOC: terminfo(5) manpage
       TERMINFO_DIRS: /snap/core/current/lib/terminfo
