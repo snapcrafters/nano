@@ -45,7 +45,7 @@ icon: snap/gui/nano.png
 #version: determined-by-adopt-info
 adopt-info: nano
 
-confinement: strict
+confinement: classic
 grade: stable
 
 plugs:
@@ -62,11 +62,8 @@ apps:
       "${SNAP}"/bin/classic-launch
       "${SNAP}"/bin/locales-launch
       "${SNAP}"/bin/magic-launch
+      "${SNAP}"/bin/ncurses-launch
       "${SNAP}"/bin/nano
-    environment:
-      # Fix "Error opening terminal: xterm-256color." error in classic confinement
-      # DOC: terminfo(5) manpage
-      TERMINFO_DIRS: /snap/core/current/lib/terminfo
 
   rnano:
     command: >
@@ -75,11 +72,8 @@ apps:
       "${SNAP}"/bin/classic-launch
       "${SNAP}"/bin/locales-launch
       "${SNAP}"/bin/magic-launch
+      "${SNAP}"/bin/ncurses-launch
       "${SNAP}"/bin/rnano
-    environment:
-      # Fix "Error opening terminal: xterm-256color." error in classic confinement
-      # DOC: terminfo(5) manpage
-      TERMINFO_DIRS: /snap/core/current/lib/terminfo
 
 parts:
   # Utility programs to help with packaging
@@ -115,6 +109,9 @@ parts:
   # Remote part for fixing the glibc locales(and gnu gettext I18N support)
   # This part is only required for non GUI apps that don't uses the desktop-launch launchers
   locales-launch:
+
+  # Remote part for fixing ncurses applications
+  ncurses-launch:
 
   # Remote part for recording the exact revision for each part during building
   parts-meta-info:
