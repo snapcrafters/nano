@@ -1,4 +1,0 @@
-#!/usr/bin/env bash
-# Launcher to make libmagic work, refer file(1), magic(5) manual pages
-export MAGIC="${SNAP}"/usr/share/misc/magic
-exec "${@}"
