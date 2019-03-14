@@ -48,12 +48,6 @@ adopt-info: nano
 confinement: classic
 grade: stable
 
-plugs:
-  # Storage access
-  home:
-    #read: all # Enable this will make this interface non-A/C
-  removable-media: # Non-A/C
-
 apps:
   nano:
     command: >
