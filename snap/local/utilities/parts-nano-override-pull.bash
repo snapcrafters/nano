@@ -13,16 +13,12 @@ init(){
 	local \
 		all_upstream_release_tags \
 		checkout_mode=tip \
-		clone_depth=100 \
 		last_upstream_release_version \
 		last_snapped_release_version \
 		upstream_version \
 		packaging_revision
 
-	git clone \
-		--depth="${clone_depth}" \
-		git://git.savannah.gnu.org/nano.git \
-		.
+	snapcraftctl pull
 
 	if \
 		! \
