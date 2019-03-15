@@ -127,8 +127,6 @@ parts:
     - utilities
 
     source: git://git.savannah.gnu.org/nano.git
-    source-depth: 100
-
     override-pull: '"${SNAPCRAFT_STAGE}"/assets/utilities/parts-nano-override-pull.bash'
 
     plugin: autotools
