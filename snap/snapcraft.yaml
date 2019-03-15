@@ -48,12 +48,6 @@ adopt-info: nano
 confinement: classic
 grade: stable
 
-plugs:
-  # Storage access
-  home:
-    #read: all # Enable this will make this interface non-A/C
-  removable-media: # Non-A/C
-
 apps:
   nano:
     command: >
@@ -133,8 +127,6 @@ parts:
     - utilities
 
     source: git://git.savannah.gnu.org/nano.git
-    source-depth: 100
-
     override-pull: '"${SNAPCRAFT_STAGE}"/utilities/parts-nano-override-pull.bash'
 
     plugin: autotools
