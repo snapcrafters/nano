@@ -134,8 +134,7 @@ parts:
       '*': assets/rcfiles/
 
   nano:
-    after:
-    - utilities
+    after: [utilities]
 
     source: git://git.savannah.gnu.org/nano.git
     override-pull: '"${SNAPCRAFT_STAGE}"/assets/utilities/parts-nano-override-pull.bash'
