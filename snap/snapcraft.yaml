@@ -53,11 +53,11 @@ apps:
     adapter: full
     command: bin/nano
     command-chain: &common_cmd_chain
-    - bin/classic-launch
-    - bin/locales-launch
-    - bin/magic-launch
-    - bin/ncurses-launch
-    - bin/nano-launch
+      - bin/classic-launch
+      - bin/locales-launch
+      - bin/magic-launch
+      - bin/ncurses-launch
+      - bin/nano-launch
     environment: &common_env
       SNAP_ARCH_TRIPLET: $SNAPCRAFT_ARCH_TRIPLET
 
@@ -73,86 +73,86 @@ parts:
     source: snap/local/utilities
     plugin: dump
     organize:
-      '*': assets/utilities/
+      "*": assets/utilities/
     prime:
-    - -*
+      - -*
 
   # Launcher programs to fix problems at runtime
   launchers:
     source: snap/local/launchers
     plugin: dump
     organize:
-      '*-launch': bin/
+      "*-launch": bin/
     stage-packages:
-    - dialog
+      - dialog
 
   # Program patches to solve issues that can't be solved by tweaking in runtime
   #patches:
-    #source: snap/local/patches
-    #plugin: dump
-    #organize:
-      #'*': assets/patches/
-    #prime:
-    #- -*
+  #source: snap/local/patches
+  #plugin: dump
+  #organize:
+  #'*': assets/patches/
+  #prime:
+  #- -*
 
   # Launcher to set up the usual snap runtime environment
   # https://forum.snapcraft.io/t/the-classic-launch-stage-snap/10441
   classic-launch:
     plugin: nil
     stage-snaps:
-    - classic-launch
+      - classic-launch
 
   # Launcher for fixing libmagic applications
   # https://forum.snapcraft.io/t/the-magic-launch-launcher-stage-snap/10442
   magic-launch:
     plugin: nil
     stage-snaps:
-    - magic-launch
+      - magic-launch
 
   # Launcher for fixing the glibc locales(and gnu gettext I18N support)
   # https://forum.snapcraft.io/t/the-locales-launch-stage-snap/10296
   locales-launch:
     plugin: nil
     stage-snaps:
-    - locales-launch
+      - locales-launch
     stage-packages:
-    - libc-bin
-    - locales
+      - libc-bin
+      - locales
 
   # Launcher for fixing ncurses applications
   # https://forum.snapcraft.io/t/the-ncurses-launch-launcher-stage-snap/10444
   ncurses-launch:
     plugin: nil
     stage-snaps:
-    - ncurses-launch
+      - ncurses-launch
 
   # A minimal nanorc for this snap
   rcfiles:
     source: snap/local/rcfiles
     plugin: dump
     organize:
-      '*': assets/rcfiles/
+      "*": assets/rcfiles/
 
   nano:
     after:
-    - utilities
+      - utilities
 
     source: git://git.savannah.gnu.org/nano.git
     override-pull: '"${SNAPCRAFT_STAGE}"/assets/utilities/parts-nano-override-pull.bash'
 
     plugin: autotools
     configflags:
-    - --datarootdir=/snap/$SNAPCRAFT_PROJECT_NAME/current/share
-    - --sysconfdir=/snap/$SNAPCRAFT_PROJECT_NAME/current/assets/rcfiles
+      - --datarootdir=/snap/$SNAPCRAFT_PROJECT_NAME/current/share
+      - --sysconfdir=/snap/$SNAPCRAFT_PROJECT_NAME/current/assets/rcfiles
     build-packages:
-    - gettext
-    - groff
-    - libmagic-dev
-    - libncursesw5-dev
-    - pkg-config
-    - texinfo
+      - gettext
+      - groff
+      - libmagic-dev
+      - libncursesw5-dev
+      - pkg-config
+      - texinfo
     stage-packages:
-    - libmagic1
-    - libncursesw5
+      - libmagic1
+      - libncursesw5
     organize:
       snap/$SNAPCRAFT_PROJECT_NAME/current: /
