@@ -44,30 +44,28 @@ icon: snap/gui/nano.png
 
 #version: determined-by-adopt-info
 adopt-info: nano
-
+base: core
 confinement: classic
 grade: stable
 
 apps:
   nano:
-    command: >
-      bin/workaround-snap-arch-triplet-launch
-      "${SNAP}"/bin/classic-launch
-      "${SNAP}"/bin/locales-launch
-      "${SNAP}"/bin/magic-launch
-      "${SNAP}"/bin/ncurses-launch
-      "${SNAP}"/bin/nano-launch
-      "${SNAP}"/bin/nano
+    adapter: full
+    command: bin/nano
+    command-chain: &common_cmd_chain
+    - bin/classic-launch
+    - bin/locales-launch
+    - bin/magic-launch
+    - bin/ncurses-launch
+    - bin/nano-launch
+    environment: &common_env
+      SNAP_ARCH_TRIPLET: $SNAPCRAFT_ARCH_TRIPLET
 
   rnano:
-    command: >
-      bin/workaround-snap-arch-triplet-launch
-      "${SNAP}"/bin/classic-launch
-      "${SNAP}"/bin/locales-launch
-      "${SNAP}"/bin/magic-launch
-      "${SNAP}"/bin/ncurses-launch
-      "${SNAP}"/bin/nano-launch
-      "${SNAP}"/bin/rnano
+    adapter: full
+    command: bin/rnano
+    command-chain: *common_cmd_chain
+    environment: *common_env
 
 parts:
   # Utility programs to help with packaging
@@ -97,23 +95,36 @@ parts:
     #prime:
     #- -*
 
-  # Required by classic-launch part
-  workaround-snap-arch-triplet:
-
+  # Launcher to set up the usual snap runtime environment
+  # https://forum.snapcraft.io/t/the-classic-launch-stage-snap/10441
   classic-launch:
+    plugin: nil
+    stage-snaps:
+    - classic-launch
 
-  # Remote part for fixing libmagic applications
+  # Launcher for fixing libmagic applications
+  # https://forum.snapcraft.io/t/the-magic-launch-launcher-stage-snap/10442
   magic-launch:
+    plugin: nil
+    stage-snaps:
+    - magic-launch
 
-  # Remote part for fixing the glibc locales(and gnu gettext I18N support)
-  # This part is only required for non GUI apps that don't uses the desktop-launch launchers
+  # Launcher for fixing the glibc locales(and gnu gettext I18N support)
+  # https://forum.snapcraft.io/t/the-locales-launch-stage-snap/10296
   locales-launch:
+    plugin: nil
+    stage-snaps:
+    - locales-launch
+    stage-packages:
+    - libc-bin
+    - locales
 
-  # Remote part for fixing ncurses applications
+  # Launcher for fixing ncurses applications
+  # https://forum.snapcraft.io/t/the-ncurses-launch-launcher-stage-snap/10444
   ncurses-launch:
-
-  # Remote part for recording the exact revision for each part during building
-  parts-meta-info:
+    plugin: nil
+    stage-snaps:
+    - ncurses-launch
 
   # A minimal nanorc for this snap
   rcfiles:
