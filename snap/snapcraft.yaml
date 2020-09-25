@@ -86,15 +86,6 @@ parts:
     stage-packages:
     - dialog
 
-  # Program patches to solve issues that can't be solved by tweaking in runtime
-  #patches:
-    #source: snap/local/patches
-    #plugin: dump
-    #organize:
-      #'*': assets/patches/
-    #prime:
-    #- -*
-
   # Launcher to set up the usual snap runtime environment
   # https://forum.snapcraft.io/t/the-classic-launch-stage-snap/10441
   classic-launch:
