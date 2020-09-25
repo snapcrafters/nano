@@ -1,43 +1,32 @@
-name: Build Pull Requests
-
-on:
-- pull_request
-
+name: Snap
+on: [push, pull_request]
 jobs:
-  snapcraft-build:
+  build-snap:
+    name: Snap building
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        architecture:
-        - linux/amd64
-        - linux/386
-        - linux/arm64
-        - linux/arm/v7
     steps:
-    - name: Checkout
-      uses: actions/checkout@v2
-    - name: Build
-      id: build
-      run: |
-        echo '{"experimental": true}' | sudo tee /etc/docker/daemon.json > /dev/null
-        sudo systemctl restart docker
-        docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-        docker run --rm --tty --privileged \
-          --volume "$GITHUB_WORKSPACE":"$GITHUB_WORKSPACE" \
-          --workdir "$GITHUB_WORKSPACE" \
-          --platform "${{ matrix.architecture }}" \
-          diddledan/snapcraft:core snap run snapcraft
-
-          SNAPFILE="$(find "$GITHUB_WORKSPACE" -maxdepth 1 -type f -name "*.snap" | head -n1)"
-          sudo chown "$(id -u)":"$(id -g)" "$SNAPFILE"
-          echo ::set-output name=snap::"$SNAPFILE"
-    - name: Review
-      uses: diddlesnaps/snapcraft-review-tools-action@v1
-      with:
-        snap: ${{ steps.build.outputs.snap }}
-        isClassic: 'true'
-    - name: Save snap
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ matrix.architecture }}.snap
-        path: ${{ steps.build.outputs.snap }}
+      - name: Checkout code
+        uses: actions/checkout@v2.3.2
+      - name: Build the snap
+        uses: snapcore/action-build@v1
+      - name: Uploading snap artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: snap-files
+          path: "*.snap"
+  test-snap:
+    runs-on: ubuntu-latest
+    needs: build-snap
+    steps:
+      - name: Download built snap
+        uses: actions/download-artifact@v2
+        with:
+          name: snap-files
+      - name: Install built snap
+        shell: bash
+        run: sudo snap install --classic --dangerous nano*.snap
+      - name: Verify snap runs
+        shell: bash
+        run: |
+          # TODO: write actual tests here
+          nano --help
