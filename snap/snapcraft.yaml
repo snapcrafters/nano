@@ -73,7 +73,7 @@ parts:
     source: snap/local/utilities
     plugin: dump
     organize:
-      '*': assets/utilities/
+      '*': utilities/
     prime:
     - -*
 
@@ -122,16 +122,16 @@ parts:
     source: snap/local/rcfiles
     plugin: dump
     organize:
-      '*': assets/rcfiles/
+      '*': rcfiles/
 
   nano:
     after: [utilities]
     source: git://git.savannah.gnu.org/nano.git
-    override-pull: '"${SNAPCRAFT_STAGE}"/assets/utilities/parts-nano-override-pull.bash'
+    override-pull: '"${SNAPCRAFT_STAGE}"/utilities/parts-nano-override-pull.bash'
     plugin: autotools
     configflags:
     - --datarootdir=/snap/$SNAPCRAFT_PROJECT_NAME/current/share
-    - --sysconfdir=/snap/$SNAPCRAFT_PROJECT_NAME/current/assets/rcfiles
+    - --sysconfdir=/snap/$SNAPCRAFT_PROJECT_NAME/current/rcfiles
     build-packages:
     - gettext
     - groff
