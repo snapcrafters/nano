@@ -9,10 +9,10 @@ jobs:
     strategy:
       matrix:
         architecture:
-        - linux/amd64
-        - linux/386
-        - linux/arm64
-        - linux/arm/v7
+        - amd64
+        - 386
+        - arm64
+        - armhf
     steps:
     - name: Checkout
       uses: actions/checkout@v2
