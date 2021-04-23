@@ -31,5 +31,5 @@ jobs:
     - name: Save snap
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ steps.build.outputs.snap }}
+        name: ${{ matrix.architecture }}.snap
         path: ${{ steps.build.outputs.snap }}
