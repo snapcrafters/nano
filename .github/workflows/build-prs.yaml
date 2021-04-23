@@ -10,7 +10,7 @@ jobs:
       matrix:
         architecture:
         - amd64
-        - 386
+        - i386
         - arm64
         - armhf
     steps:
