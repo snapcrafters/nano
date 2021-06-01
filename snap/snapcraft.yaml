@@ -110,12 +110,14 @@ parts:
     - libc-bin
     - locales
 
-  # Launcher for fixing ncurses applications
-  # https://forum.snapcraft.io/t/the-ncurses-launch-launcher-stage-snap/10444
+  # The ncurses-launch launcher: Fix ncurses applications in the snap runtime - doc - snapcraft.io
+  # https://forum.snapcraft.io/t/the-ncurses-launch-launcher-fix-ncurses-applications-in-the-snap-runtime/10444
   ncurses-launch:
-    plugin: nil
-    stage-snaps:
-    - ncurses-launch
+    source: https://github.com/Lin-Buo-Ren/ncurses-launch.git
+    source-tag: v1.0.0
+    stage-packages:
+      - ncurses-base
+    plugin: dump
 
   # A minimal nanorc for this snap
   rcfiles:
