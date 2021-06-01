@@ -9,28 +9,20 @@ jobs:
     strategy:
       matrix:
         architecture:
-        - linux/amd64
-        - linux/386
-        - linux/arm64
-        - linux/arm/v7
+        - amd64
+        - i386
+        - arm64
+        - armhf
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - name: Build
+    - uses: docker/setup-qemu-action@v1
+      with:
+        image: tonistiigi/binfmt@sha256:df15403e06a03c2f461c1f7938b171fda34a5849eb63a70e2a2109ed5a778bde
+    - uses: diddlesnaps/snapcraft-multiarch-action@v1
       id: build
-      run: |
-        echo '{"experimental": true}' | sudo tee /etc/docker/daemon.json > /dev/null
-        sudo systemctl restart docker
-        docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-        docker run --rm --tty --privileged \
-          --volume "$GITHUB_WORKSPACE":"$GITHUB_WORKSPACE" \
-          --workdir "$GITHUB_WORKSPACE" \
-          --platform "${{ matrix.architecture }}" \
-          diddledan/snapcraft:core snap run snapcraft
-
-          SNAPFILE="$(find "$GITHUB_WORKSPACE" -maxdepth 1 -type f -name "*.snap" | head -n1 | sed -Ee "s|^$GITHUB_WORKSPACE/?||")"
-          sudo chown "$(id -u)":"$(id -g)" "$SNAPFILE"
-          echo ::set-output name=snap::"$SNAPFILE"
+      with:
+        architecture: ${{ matrix.architecture }}
     - name: Review
       uses: diddlesnaps/snapcraft-review-tools-action@v1
       with:
@@ -39,5 +31,5 @@ jobs:
     - name: Save snap
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ steps.build.outputs.snap }}
+        name: ${{ matrix.architecture }}.snap
         path: ${{ steps.build.outputs.snap }}
