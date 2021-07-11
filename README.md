@@ -1,5 +1,5 @@
 # Unofficial Snap Packaging for GNU nano
-This is the unofficial snap packaging for GNU nano, [Snaps are universal Linux packages](https://snapcraft.io).
+This is the unofficial snap packaging for [GNU nano](https://www.nano-editor.org), [Snaps are universal Linux packages](https://snapcraft.io).
 
 Refer [snap/README.md](snap/README.md) for user-oriented information.
 
@@ -28,12 +28,12 @@ Snapcrafters ([join us](https://forum.snapcraft.io/t/join-snapcrafters/1325)) ar
 - [x] Update the install instructions in `snap/README.md`
 - [x] Post an announcement in the [Snapcraft Forum](https://forum.snapcraft.io) - [template](https://github.com/Lin-Buo-Ren/snapcrafters-template-plus/wiki/Release-Announcement-Template) - [link](https://forum.snapcraft.io/t/the-unofficial-nano-text-editor/8872)
 - [x] Ask a [Snapcrafters admin](https://github.com/orgs/snapcrafters/people?query=%20role%3Aowner) to fork your/upstream's repo into github.com/snapcrafters, transfer the snap name from you to snapcrafters, and configure the repo for automatic publishing into edge on commit - [template](https://github.com/Lin-Buo-Ren/snapcrafters-template-plus/wiki/Ownership-Transfer-Template#transfer-to-the-snapcrafters-organization) - [link](https://forum.snapcraft.io/t/please-transfer-nano-to-snapcrafters/8873)
-- [ ] (Skipped, upstream not willing to maintain the snap)Submit a pull request or patch upstream that adds the `snapcraft.yaml` and any required assets/launchers - [example](https://github.com/htacg/tidy-html5/pull/749) - [link]()
+- [ ] (Skipped, [upstream not willing to maintain the snap](http://lists.gnu.org/archive/html/nano-devel/2018-12/msg00008.html))Submit a pull request or patch upstream that adds the `snapcraft.yaml` and any required assets/launchers - [example](https://github.com/htacg/tidy-html5/pull/749) - [link]()
 - [ ] Submit a pull request or patch upstream that adds snap install documentation - [example](https://github.com/htacg/html-tidy.org/pull/11) - [link]()
 
 If the upstream accepts the PRs **AND** willing to maintain the package on the Snap Store:
-- [ ] (Skipped, upstream not willing to maintain the snap)Request upstream create a Snap Store developer account
-- [ ] (Skipped, upstream not willing to maintain the snap)Contact the Snap Advocacy team to request the snap be transferred to upstream - [template](https://github.com/Lin-Buo-Ren/snapcrafters-template-plus/wiki/Ownership-Transfer-Template#transfer-to-upstream) - [link]()
+- [ ] (Skipped)Request upstream create a Snap Store developer account
+- [ ] (Skipped)Contact the Snap Advocacy team to request the snap be transferred to upstream - [template](https://github.com/Lin-Buo-Ren/snapcrafters-template-plus/wiki/Ownership-Transfer-Template#transfer-to-upstream) - [link]()
 
 Finally:
 
@@ -41,29 +41,12 @@ Finally:
 
 If you have any questions, [post in the Snapcraft forum](https://forum.snapcraft.io).
 
-<!--
-Refer the following page for setting a Gravatar:
-
-    Gravatar - Globally Recognized Avatars
-    https://en.gravatar.com/
-
-Refer the following page for how to generate Gravatar image URL:
-
-    Developer Resources - Gravatar - Globally Recognized Avatars
-    https://en.gravatar.com/site/implement/
-
-You may generate the unique hash by using the following command in terminal:
-
-    printf username@example.com | tr '[:upper:]' '[:lower:]' | md5sum
-
--->
-
 ## The Snapcrafters
 | [![林博仁(Buo-ren, Lin)'s gravatar](http://gravatar.com/avatar/66a5b84972e73e895d5d68d48b1e1e21/?s=128)](https://github.com/Lin-Buo-Ren) |
 | :-: |
 | [林博仁<br>Buo-ren, Lin](https://github.com/Lin-Buo-Ren) |
 
 ## Upstream
-| [![The nano-devel mailing list](http://gravatar.com/avatar/bc0bced65e963eb5c3a16cab8b004431?s=128)](https://lists.gnu.org/mailman/listinfo/nano-devel) |
-| :-: |
+| [![The nano-devel mailing list](https://www.nano-editor.org/favicon.ico)](https://lists.gnu.org/mailman/listinfo/nano-devel) |
+| :----------------------------------------------------------: |
 | [The nano-devel mailing list](https://lists.gnu.org/mailman/listinfo/nano-devel) |
