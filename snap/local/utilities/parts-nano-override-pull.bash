@@ -3,6 +3,9 @@
 # https://forum.snapcraft.io/t/autopublishing-of-snapcrafters-organizations-snaps-how/7954/2
 # 林博仁(Buo-ren Lin) <buo.ren.lin@gmail.com> © 2025
 
+# Force the version to a specific upstream release version(without the v prefix)
+FORCE_VERSION="${FORCE_VERSION:-}"
+
 set \
 	-o errexit \
 	-o errtrace \
@@ -50,9 +53,13 @@ init(){
 			| cut --delimiter=+ --fields=1
 	)"
 
-	# If the latest tag from the upstream project has not been released to the stable channel, build that tag instead of the development snapshot and publish it in the edge channel.
-	if [ "${last_upstream_release_version}" != "${last_snapped_release_version}" ]; then
-		git checkout v"${last_upstream_release_version}"
+	if test -n "${FORCE_VERSION}"; then
+		git checkout v"${FORCE_VERSION}"
+	else
+		# If the latest tag from the upstream project has not been released to the stable channel, build that tag instead of the development snapshot and publish it in the edge channel.
+		if [ "${last_upstream_release_version}" != "${last_snapped_release_version}" ]; then
+			git checkout v"${last_upstream_release_version}"
+		fi
 	fi
 
 	unset \
