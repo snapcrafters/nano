@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # This scriptlet implements the workflow of the snaps owned by the snapcrafters organization
 # https://forum.snapcraft.io/t/autopublishing-of-snapcrafters-organizations-snaps-how/7954/2
-# 林博仁(Buo-ren, Lin) <Buo.Ren.Lin@gmail.com> © 2020
+# 林博仁(Buo-ren Lin) <buo.ren.lin@gmail.com> © 2020
 
 set \
 	-o errexit \
