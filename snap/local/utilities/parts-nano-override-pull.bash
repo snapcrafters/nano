@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # This scriptlet implements the workflow of the snaps owned by the snapcrafters organization
 # https://forum.snapcraft.io/t/autopublishing-of-snapcrafters-organizations-snaps-how/7954/2
-# 林博仁(Buo-ren Lin) <buo.ren.lin@gmail.com> © 2020
+# 林博仁(Buo-ren Lin) <buo.ren.lin@gmail.com> © 2025
 
 set \
 	-o errexit \
@@ -12,7 +12,6 @@ set \
 init(){
 	local \
 		all_upstream_release_tags \
-		checkout_mode=tip \
 		last_upstream_release_version \
 		last_snapped_release_version \
 		upstream_version \
@@ -52,9 +51,7 @@ init(){
 	)"
 
 	# If the latest tag from the upstream project has not been released to the stable channel, build that tag instead of the development snapshot and publish it in the edge channel.
-	if [ "${last_upstream_release_version}" != "${last_snapped_release_version}" ] \
-		|| [ "${checkout_mode}" = release ]; then
-		checkout_mode=release
+	if [ "${last_upstream_release_version}" != "${last_snapped_release_version}" ]; then
 		git checkout v"${last_upstream_release_version}"
 	fi
 
