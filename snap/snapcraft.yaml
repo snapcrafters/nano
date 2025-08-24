@@ -41,14 +41,13 @@ icon: snap/gui/nano.png
 
 #version: determined-by-adopt-info
 adopt-info: nano
-base: core
+base: core24
 confinement: classic
 grade: stable
 
 apps:
   nano:
-    adapter: full
-    command: bin/nano
+    command: usr/local/bin/nano
     command-chain: &common_cmd_chain
     - bin/classic-launch
     - bin/locales-launch
@@ -59,21 +58,11 @@ apps:
       SNAP_ARCH_TRIPLET: $SNAPCRAFT_ARCH_TRIPLET
 
   rnano:
-    adapter: full
-    command: bin/rnano
+    command: usr/local/bin/rnano
     command-chain: *common_cmd_chain
     environment: *common_env
 
 parts:
-  # Utility programs to help with packaging
-  utilities:
-    source: snap/local/utilities
-    plugin: dump
-    organize:
-      '*': utilities/
-    prime:
-    - -*
-
   # Launcher programs to fix problems at runtime
   launchers:
     source: snap/local/launchers
@@ -82,6 +71,8 @@ parts:
       '*-launch': bin/
     stage-packages:
     - dialog
+    build-attributes:
+      - enable-patchelf
 
   # Launcher to set up the usual snap runtime environment
   # https://forum.snapcraft.io/t/the-classic-launch-stage-snap/10441
@@ -106,6 +97,8 @@ parts:
     stage-packages:
     - libc-bin
     - locales
+    build-attributes:
+      - enable-patchelf
 
   # The ncurses-launch launcher: Fix ncurses applications in the snap runtime - doc - snapcraft.io
   # https://forum.snapcraft.io/t/the-ncurses-launch-launcher-fix-ncurses-applications-in-the-snap-runtime/10444
@@ -124,22 +117,27 @@ parts:
       '*': rcfiles/
 
   nano:
-    after: [utilities]
     source: git://git.savannah.gnu.org/nano.git
-    override-pull: '"${SNAPCRAFT_STAGE}"/utilities/parts-nano-override-pull.bash'
+    override-pull: '"${CRAFT_PROJECT_DIR}/snap/local/utilities/parts-nano-override-pull.bash"'
     plugin: autotools
-    configflags:
-    - --datarootdir=/snap/$SNAPCRAFT_PROJECT_NAME/current/share
-    - --sysconfdir=/snap/$SNAPCRAFT_PROJECT_NAME/current/rcfiles
+    autotools-configure-parameters:
+    - --datarootdir=/snap/$CRAFT_PROJECT_NAME/current/share
+    - --sysconfdir=/snap/$CRAFT_PROJECT_NAME/current/rcfiles
     build-packages:
     - gettext
     - groff
     - libmagic-dev
-    - libncursesw5-dev
+    - libncurses-dev
     - pkg-config
     - texinfo
     stage-packages:
-    - libmagic1
-    - libncursesw5
+    - libmagic1t64
+    - libncursesw6
     organize:
-      snap/$SNAPCRAFT_PROJECT_NAME/current: /
+      snap/$CRAFT_PROJECT_NAME/current: /
+    build-attributes:
+      - enable-patchelf
+    prime:
+      - -usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libformw.so*
+      - -usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libmenuw.so*
+      - -usr/lib/$CRAFT_ARCH_TRIPLET_BUILD_FOR/libpanelw.so*
