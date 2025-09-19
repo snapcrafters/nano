@@ -28,6 +28,28 @@ real_home_dir="$(
         --fields=6
 )"
 
+i386_obsoletion_disable_marker_file="${SNAP_USER_COMMON}/.20250823-i386-obsoletion-notice-disabled.marker"
+if test "${SNAP_ARCH}" == i386 \
+    && ! test -e "${i386_obsoletion_disable_marker_file}"; then
+    dialog \
+        --title 'i386 architecture support obsoletion notice' \
+        --no-mouse \
+        --no-collapse \
+        --msgbox "$(
+            printf 'We would like to inform you that we are no longer be able to support the i386 architecture for this snap at the moment.\n\n'
+
+            printf 'Refer to the following issue for more information:\n\n'
+            printf '\tObsoleting i386 support · Issue #32 · snapcrafters/nano\n'
+            printf '\thttps://github.com/snapcrafters/nano/issues/32\n\n'
+
+            printf 'You may continue using it but we recommend switching to another installation to stay updated and secured in the meantime.\n\n'
+
+            printf 'To disable this notice, run the following command in a terminal:\n\n'
+
+            printf '\ttouch %s\n' "${i386_obsoletion_disable_marker_file}"
+        )" 0 0 # autosized
+fi
+
 # Don't do anything in classic confinement
 if test "${HOME}" != "${real_home_dir}"; then
     user_nanorc_homedir="${real_home_dir}"/.nanorc
