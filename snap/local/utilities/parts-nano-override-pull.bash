@@ -18,7 +18,7 @@ init(){
 		upstream_version \
 		packaging_revision
 
-	snapcraftctl pull
+	craftctl default
 
 	if \
 		! \
@@ -82,9 +82,7 @@ init(){
 			--dirty=-d
 	)"
 
-	snapcraftctl \
-		set-version \
-		"${upstream_version}+pkg-${packaging_revision}"
+	craftctl set version="${upstream_version}+pkg-${packaging_revision}"
 
 	exit 0
 }
