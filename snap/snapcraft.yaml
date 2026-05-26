@@ -45,6 +45,11 @@ base: core24
 confinement: classic
 grade: stable
 
+platforms:
+  amd64:
+  arm64:
+  armhf:
+
 apps:
   nano:
     command: usr/local/bin/nano
