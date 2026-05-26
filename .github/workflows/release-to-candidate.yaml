@@ -1,29 +1,41 @@
 name: Release
+
 on:
+  # Run the workflow each time new commits are pushed to the candidate branch. 
   push:
     branches: [ "candidate" ]
   workflow_dispatch:
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
+
 permissions:
   contents: read
   issues: write
+
 jobs:
   get-architectures:
-    uses: snapcrafters/ci/get-architectures@main
-    secrets: inherit
+    name: 🖥 Get snap architectures
+    runs-on: ubuntu-latest
+    outputs:
+      architectures: ${{ steps.get-architectures.outputs.architectures }}
+      architectures-list: ${{ steps.get-architectures.outputs.architectures-list }}
+    steps:
+      - name: 🖥 Get snap architectures
+        id: get-architectures
+        uses: snapcrafters/ci/get-architectures@main
 
   release:
+    name: 🚢 Release to latest/candidate
     needs: get-architectures
-    name: 👷 Release to latest/candidate
-    environment: "Candidate Branch"
     runs-on: ubuntu-latest
+    environment: "Candidate Branch"
     strategy:
       matrix:
         architecture: ${{ fromJSON(needs.get-architectures.outputs.architectures-list) }}
     steps:
-      - name: 👷 Release to latest/candidate
+      - name: 🚢 Release to latest/candidate
         uses: snapcrafters/ci/release-to-candidate@main
         with:
           architecture: ${{ matrix.architecture }}
@@ -32,12 +44,15 @@ jobs:
           store-token: ${{ secrets.SNAP_STORE_CANDIDATE }}
 
   call-for-testing:
+    name: 📣 Create call for testing
     needs: [release, get-architectures]
-    name: 📣 Call for testing
     environment: "Candidate Branch"
     runs-on: ubuntu-latest
+    outputs:
+      issue-number: ${{ steps.issue.outputs.issue-number }}
     steps:
-      - name: 📣 Call for testing
+      - name: 📣 Create call for testing
+        id: issue
         uses: snapcrafters/ci/call-for-testing@main
         with:
           architectures: ${{ needs.get-architectures.outputs.architectures }}
