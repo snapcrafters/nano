@@ -1,0 +1,23 @@
+name: Sync version with upstream
+on:
+  schedule:
+    - cron: "0 10 * * *"
+  workflow_dispatch:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  sync:
+    name: 🔄 Sync version with upstream
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🔄 Sync version with upstream
+        uses: snapcrafters/ci/sync-version@main
+        with:
+          update-script: |
+            VERSION=$(curl -sSL "https://ftp.gnu.org/gnu/nano/" \
+              | grep -oP 'nano-[\d.]+\.tar\.gz' \
+              | sort -Vu \
+              | tail -1 \
+              | grep -oP '[\d.]+(?=\.tar\.gz)')
+            sed -i "s/^version: .*/version: \"${VERSION}\"/" snap/snapcraft.yaml
