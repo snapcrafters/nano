@@ -14,3 +14,4 @@ __pycache__
 
 # Don't track snapcraft remote-build log files
 /snapcraft-*.txt
+*.snap
