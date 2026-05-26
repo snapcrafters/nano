@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img src="https://dashboard.snapcraft.io/site_media/appmedia/2019/09/nano.png" alt="GNU nano">
+  <img src="https://raw.githubusercontent.com/snapcrafters/nano/candidate/snap/gui/nano.png" alt="GNU nano">
   <br />
   GNU nano
   <br />
@@ -15,7 +15,7 @@
 
 ## Install
 
-    sudo snap install nano
+    sudo snap install nano --classic
 
 ([Don't have snapd installed?](https://snapcraft.io/docs/core/install))
 
