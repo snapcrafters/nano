@@ -39,8 +39,7 @@ description: |
 
 icon: snap/gui/nano.png
 
-#version: determined-by-adopt-info
-adopt-info: nano
+version: "9.0"
 base: core24
 confinement: classic
 grade: stable
@@ -123,7 +122,7 @@ parts:
 
   nano:
     source: git://git.savannah.gnu.org/nano.git
-    override-pull: '"${CRAFT_PROJECT_DIR}/snap/local/utilities/parts-nano-override-pull.bash"'
+    source-tag: v9.0
     plugin: autotools
     autotools-configure-parameters:
     - --datarootdir=/snap/$CRAFT_PROJECT_NAME/current/share

@@ -21,3 +21,4 @@ jobs:
               | tail -1 \
               | grep -oP '[\d.]+(?=\.tar\.gz)')
             sed -i "s/^version: .*/version: \"${VERSION}\"/" snap/snapcraft.yaml
+            sed -i "s/^    source-tag: .*/    source-tag: v${VERSION}/" snap/snapcraft.yaml
