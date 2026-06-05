@@ -9,11 +9,13 @@ concurrency:
 jobs:
   sync:
     name: 🔄 Sync version with upstream
+    environment: "Candidate Branch"
     runs-on: ubuntu-latest
     steps:
       - name: 🔄 Sync version with upstream
         uses: snapcrafters/ci/sync-version@main
         with:
+          token: ${{ secrets.SNAPCRAFTERS_BOT_COMMIT }}
           update-script: |
             VERSION=$(curl -sSL "https://ftp.gnu.org/gnu/nano/" \
               | grep -oP 'nano-[\d.]+\.tar\.gz' \
@@ -21,4 +23,4 @@ jobs:
               | tail -1 \
               | grep -oP '[\d.]+(?=\.tar\.gz)')
             sed -i "s/^version: .*/version: \"${VERSION}\"/" snap/snapcraft.yaml
-            sed -i "s/^    source-tag: .*/    source-tag: v${VERSION}/" snap/snapcraft.yaml
+            sed -i "/^  nano:/,/^  [^ ]/ s/^    source-tag: .*/    source-tag: v${VERSION}/" snap/snapcraft.yaml
