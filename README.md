@@ -11,6 +11,10 @@
 <a href="https://snapcraft.io/nano">
   <img alt="enrol me" src="https://snapcraft.io/static/images/badges/en/snap-store-black.svg" />
 </a>
+<br />
+<a href="https://github.com/snapcrafters/nano/actions/workflows/sync-version-with-upstream.yml"><img src="https://github.com/snapcrafters/nano/actions/workflows/sync-version-with-upstream.yml/badge.svg"></a>
+<a href="https://github.com/snapcrafters/nano/actions/workflows/release-to-candidate.yml"><img src="https://github.com/snapcrafters/nano/actions/workflows/release-to-candidate.yml/badge.svg"></a>
+<a href="https://github.com/snapcrafters/nano/actions/workflows/promote-to-stable.yml"><img src="https://github.com/snapcrafters/nano/actions/workflows/promote-to-stable.yml/badge.svg"></a>
 </p>
 
 ## Install
