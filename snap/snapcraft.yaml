@@ -39,7 +39,7 @@ description: |
 
 icon: snap/gui/nano.png
 
-version: "9.1"
+version: "9.2"
 base: core24
 confinement: classic
 grade: stable
@@ -122,7 +122,7 @@ parts:
 
   nano:
     source: git://git.savannah.gnu.org/nano.git
-    source-tag: v9.1
+    source-tag: v9.2
     plugin: autotools
     autotools-configure-parameters:
     - --datarootdir=/snap/$CRAFT_PROJECT_NAME/current/share
