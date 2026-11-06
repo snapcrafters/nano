@@ -123,12 +123,16 @@ parts:
   nano:
     source: git://git.savannah.gnu.org/nano.git
     source-tag: v9.2
+    override-pull: |
+      craftctl default
+      patch --strip=1 < "$CRAFT_PROJECT_DIR/snap/local/host-nanorc.patch"
     plugin: autotools
     autotools-configure-parameters:
     - --datarootdir=/snap/$CRAFT_PROJECT_NAME/current/share
     - --sysconfdir=/snap/$CRAFT_PROJECT_NAME/current/rcfiles
     build-packages:
     - gettext
+    - patch
     - groff
     - libmagic-dev
     - libncurses-dev

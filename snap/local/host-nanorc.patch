@@ -1,0 +1,13 @@
+--- a/src/rcfile.c
++++ b/src/rcfile.c
+@@ -1738,6 +1738,10 @@
+ 		if (have_nanorc(SYSCONFDIR, "/nanorc"))
+ 			parse_one_nanorc();
+ 
++		/* Preserve bundled syntax defaults, then honor host system settings. */
++		if (have_nanorc("/etc", "/nanorc"))
++			parse_one_nanorc();
++
+ 		get_homedir();
+ 		xdgconfdir = getenv("XDG_CONFIG_HOME");
+ 
